@@ -25,8 +25,20 @@ public class TaskController {
     }
 
     @GetMapping("/{userid}/tasks")
-    public List<TaskDto> getAllTasks(@PathVariable(name = "userid") Long userid){
+    public ResponseEntity<List<TaskDto>> getAllTasks(@PathVariable(name = "userid") Long userid){
 
-        return null;
+        return new ResponseEntity<>(taskService.getAllTasks(userid),HttpStatus.OK);
+    }
+
+    @GetMapping("/{userid}/tasks/{taskid}")
+    public ResponseEntity<TaskDto> getTask(@PathVariable(name = "userid") Long userid,
+                                           @PathVariable(name = "taskid")Long taskid){
+        return new ResponseEntity<>(taskService.getTask(userid,taskid),HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{userid}/tasks/{taskid}")
+    public ResponseEntity<String> deleteTask(@PathVariable(name = "userid") Long userid,
+                                             @PathVariable(name = "taskid") Long taskid){
+        return new ResponseEntity<>(taskService.deleteTask(userid,taskid),HttpStatus.OK);
     }
 }

@@ -11,4 +11,8 @@ public interface TaskService {
     public TaskDto saveTask(Long userid, TaskDto taskDto);
 
     public List<TaskDto> getAllTasks(Long userid);
+
+    public TaskDto getTask(Long userid,Long taskid);
+
+    public String deleteTask(Long userid,Long taskid);
 }
