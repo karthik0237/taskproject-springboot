@@ -2,14 +2,16 @@ package com.example.taskproject.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import com.example.taskproject.entity.User;
+import lombok.Setter;
 
 
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "task")
 public class Task {
@@ -21,31 +23,12 @@ public class Task {
     @Column(name = "taskName")
     private String taskName;
 
+
+    @Column(name = "completed")
+    private boolean completed = false;
+
     @ManyToOne(fetch = FetchType.LAZY)  // if dont want user data Lazy else Eager
     @JoinColumn(name = "user_id")
     private User user;
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getTaskName() {
-        return taskName;
-    }
-
-    public void setTaskName(String taskName) {
-        this.taskName = taskName;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 }

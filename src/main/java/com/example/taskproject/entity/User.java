@@ -2,15 +2,17 @@ package com.example.taskproject.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 //@Data // with this annotation by lombok ,no need to write boilerplate code like setters and getters etc.
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 @Entity
-@Table(name = "user", uniqueConstraints = {
-        @UniqueConstraint( columnNames = {"email"})
-} )
+@Table(name = "user")
 public class User {
 
     @Id
@@ -20,7 +22,7 @@ public class User {
     @Column( name= "name",nullable = false)
     private String name;
 
-    @Column(name = "email",nullable = false )
+    @Column(name = "email",nullable = false, unique = true)
     private String email;
 
     @Column(name = "password", nullable = false)

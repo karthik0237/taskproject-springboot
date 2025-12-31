@@ -28,6 +28,7 @@ public class AuthController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+
     //POST store the user in db
     @PostMapping("/register")
     public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto){
@@ -36,11 +37,12 @@ public class AuthController {
 
 
     @PostMapping("/login")
-    public ResponseEntity<String> loginUser(@RequestBody LoginDto loginDetails){
-        Authentication auth = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginDetails.getEmail(),loginDetails.getPassword()));
-        SecurityContextHolder.getContext().setAuthentication(auth);
+    public ResponseEntity<String> loginUser(@RequestBody LoginDto loginDto){
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword())
+        );
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
         return  new ResponseEntity<>("User logged in successfully",HttpStatus.OK);
     }
 }
