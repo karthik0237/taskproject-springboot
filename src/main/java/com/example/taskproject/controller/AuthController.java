@@ -1,6 +1,8 @@
 package com.example.taskproject.controller;
 
+import com.example.taskproject.payload.AuthTokenResponse;
 import com.example.taskproject.payload.LoginDto;
+import com.example.taskproject.security.JwtTokenProvider;
 import com.example.taskproject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,6 +30,9 @@ public class AuthController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
+
 
     //POST store the user in db
     @PostMapping("/register")
@@ -37,13 +42,15 @@ public class AuthController {
 
 
     @PostMapping("/login")
-    public ResponseEntity<String> loginUser(@RequestBody LoginDto loginDto){
+    public ResponseEntity<AuthTokenResponse> loginUser(@RequestBody LoginDto loginDto){
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword())
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
         System.out.println(authentication.toString());
 
-        return  new ResponseEntity<>("User logged in successfully",HttpStatus.OK);
+        String token = jwtTokenProvider.generateToken(authentication);
+        AuthTokenResponse authToken = new AuthTokenResponse(token);
+        return ResponseEntity.ok(authToken);
     }
 }
